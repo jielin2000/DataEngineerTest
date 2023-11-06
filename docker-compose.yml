@@ -1,0 +1,43 @@
+version: '3.1'
+services:
+  db:
+    image: postgres
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./data:/data
+    ports:
+      - 5432:5432
+    networks:
+      - road_link_network
+      
+  etl :
+    build: ./etl
+    depends_on:
+      - db
+    volumes_from:
+      - db
+    networks:
+      - road_link_network
+
+  jupyter:
+    build: ./visualization
+    image: jupyter/minimal-notebook
+    volumes:
+      - ./visualization:/home/jovyan/work
+    ports:
+      - 8888:8888
+    container_name: jupyter_notebook
+    depends_on:
+      - db
+    networks:
+      - road_link_network
+    command: "start-notebook.sh --NotebookApp.token="
+
+networks:
+  road_link_network:
+    external: true
+
+volumes:
+  road_link_data:

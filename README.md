@@ -5,7 +5,7 @@
 - Docker Compose
 
 # Getting Started
-Follow the steps bellow to set up and run the project.
+Follow the steps below to set up and run the project.
 
 1. Clone the repository
 2. Create volume **road_link_data** with
